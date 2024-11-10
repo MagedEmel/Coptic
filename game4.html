@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="img/logo_icon.png" />
+
+    <!--Link Css-->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!--Link FontAwsome-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+
+    <title>Maged Emel | Portfolio</title>
+  </head>
+  <body>
+    <div class="bg-lines">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <header>
+      <nav class="container">
+        <a href="#" class="logo">
+          <h1>Coptic</h1>
+        </a>
+        <div class="linkes" id="links">
+          <span class="close-menu"
+            ><i class="fa-solid fa-xmark" onclick="openCloseMenu()"></i
+          ></span>
+          <a href="index.html" class="logo">
+            <h1>Coptic</h1>
+          </a>
+          <a href="index.html" class="active">الصفحة الرئيسة</a>
+          <a href="game.html" class="active">اللعبة</a>
+        </div>
+        <div class="icons">
+          <a
+            href="https://www.facebook.com/profile.php?id=100064601205570"
+            target="_blank"
+          >
+            <i class="fa-brands fa-facebook"></i>
+          </a>
+          <span class="icon-menu" onclick="openCloseMenu()">
+            <i class="fa-solid fa-bars"></i>
+          </span>
+        </div>
+      </nav>
+    </header>
+    <section>
+      <section>
+        <div class="container" id="qustAnswers">
+          <h1 class="title_qust">أذكر ما هى الارقام الاتية ؟</h1>
+          <div class="qust">
+            <div class="Qus1">
+              <h3>Ⲓ̀ⲁ</h3>
+              <input type="text" id="answer1" />
+            </div>
+            <div class="Qus2">
+              <h3>ⲖⲆ_</h3>
+              <input type="text" id="answer2" />
+            </div>
+            <div class="Qus3">
+              <h3>ⲘⲐ</h3>
+              <input type="text" id="answer3" />
+            </div>
+          </div>
+          <button id="submitAnswer" class="btn">ارسال الحل</button>
+        </div>
+      </section>
+      <div>
+        <div class="container">
+            <div class="displayAnswer" id="displaysAnswer">
+                <h3>❤️اشطر كتكوووت</h3>
+                <h4 id="countAnswer"></h4>
+                <a class="btn" href="game.html">يلا نكمل لعب سوا</a>
+            </div>
+        </div>
+      </div>
+    <script src="js/main.js"></script>
+    <script src="js/game4.js"></script>
+  </body>
+</html>

@@ -23,7 +23,7 @@ let goToGame = document.querySelector(".btn");
 
 goToGame.addEventListener("click", function () {
   window.scrollTo({
-    top: 900,
+    top: 400,
     behavior: "smooth",
   });
 });
@@ -32,68 +32,84 @@ let count;
 
 let CountGame = document.getElementById("CountGame");
 
-let gameArr = [
-  "الدرس الاول",
-  "الدرس التانى",
-  "الدرس التالت",
-  "الدرس الرابع",
-  "الدرس الخامس",
-  "الدرس السادس",
-  "الدرس السابع",
-  "الدرس التامن",
-  "الدرس التاسع",
-  "الدرس العاشر",
-  "الدرس الحادى عشر",
-];
-
-for (count = 1; count <= 1; count++) {
-  game.innerHTML += `
-            <div class="stars">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-          </div>
-          <div class="game">
-            <h3 id="game" class="${count}" onclick="joinGame()">${count}</h3>
-          </div>`;
-}
-
-var x = document.querySelector(".btns");
-
-let creatA = document.createElement("a");
-creatA.className = "btn";
-creatA.id = "btnjoingame";
-creatA.textContent = "يلا نلعب";
-x.appendChild(creatA);
-
-var gameId = document.querySelectorAll("#game");
-gameId.forEach((gameId) => {
-  gameId.addEventListener("click", function () {
-    CountGame.innerHTML = gameArr[Number(gameId.className - 1)];
-    creatA.href = hrefValues[this.className - 1];
-  });
-});
-
 var hrefValues = [
   "game1.html",
   "game2.html",
   "game3.html",
   "game4.html",
   "game5.html",
-  "game6.html",
-  "game7.html",
-  "game8.html",
-  "game9.html",
-  "game10.html",
-  "game11.html",
 ];
 
-function joinGame() {
-  join.classList.add("join");
-  game.classList.add("hidden");
+for (count = 1; count <= 5; count++) {
+  game.innerHTML += `
+            <div class="stars" date-game="${count}">
+            <i class="fa-solid fa-star" id="star1-game${count}"></i>
+            <i class="fa-solid fa-star" id="star2-game${count}"></i>
+            <i class="fa-solid fa-star" id="star3-game${count}"></i>
+          </div>
+          <div class="game">
+            <a href="${
+              hrefValues[count - 1]
+            }" id="goGame${count}" class="game-link">
+              <h3 id="game" class="${count}" onclick="joinGame()">${count}</h3>
+            </a>
+          </div>`;
 }
 
-let btns = document.querySelector(".join .container .btns");
+function updateStars() {
+  for (count = 1; count <= hrefValues.length; count++) {
+    let score = localStorage.getItem(`NumOfStars-game${count}`);
+    if (score) {
+      score = parseInt(score, 10);
+      if (score >= 1) {
+        document.getElementById(`star1-game${count}`).style.color = "yellow";
+      }
+      if (score >= 2) {
+        document.getElementById(`star2-game${count}`).style.color = "yellow";
+      }
+      if (score >= 3) {
+        document.getElementById(`star3-game${count}`).style.color = "yellow";
+      }
+    }
+  }
+}
 
-var parent = document.querySelector(".join .container");
+function getTotalStarsForLesson(lessonNumber) {
+  let totalStars = 0;
+  for (let i = 1; i < lessonNumber; i++) {
+    let key = `NumOfStars-game${i}`;
+    let score = localStorage.getItem(key);
+    if (score) {
+      totalStars += parseInt(score, 10);
+    }
+  }
+  return totalStars;
+}
+function updateLinks() {
+  const links = document.querySelectorAll(".game-link");
+  links.forEach((link, index) => {
+    const lessonNum = index + 1;
+    const requiredStars = 3 + (lessonNum - 2) * 2;
+    console.log(requiredStars);
+    const totalStars = getTotalStarsForLesson(lessonNum);
 
+    link.addEventListener("click", (event) => {
+      const isLessonCompleted = localStorage.getItem(
+        `Completed-game${lessonNum}`
+      );
+      if (isLessonCompleted) {
+        event.preventDefault();
+        alert(`انت خلصت الدرس دة يجميل و حليتو كلو صح مينفعش تدخل تانى`);
+      } else if (lessonNum > 3 && totalStars < requiredStars) {
+        event.preventDefault();
+        alert(
+          `انت لسا محتاج ${requiredStars} نجوم من الدروس ال فاتت عشان توصل للدرس ${lessonNum}`
+        );
+      }
+    });
+  });
+}
+document.addEventListener("DOMContentLoaded", () => {
+  updateStars();
+  updateLinks();
+});
