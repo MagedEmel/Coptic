@@ -270,13 +270,17 @@ header nav .icons a:hover {
 .projects .container .game {
   background: var(--main_color);
   border-radius: 50%;
-  height: 50px;
-  width: 50px;
+  height: 70px;
+  width: 70px;
 }
 .projects .container .game h3 {
-  line-height: 50px;
+  line-height: 70px;
   text-align: center;
   color: black;
+  font-size: 25px;
+}
+.fa-star {
+  font-size: 25px;
 }
 .projects .container.hidden {
   display: none;
@@ -688,4 +692,21 @@ body {
   .title_qust {
     font-size: 35px;
   }
+}
+
+/* LESSON PAGE */
+
+.lesson div{
+  width: 80%;
+  height: 50px;
+  background-color: var(--p_color);
+  margin: 30px auto;
+  border-radius: 20px;
+}
+.lesson h2 a {
+  display: block;
+  color: #ccff00;
+  text-align: center;
+  padding: 10px;
+  font-size: 30px;
 }

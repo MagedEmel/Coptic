@@ -19,18 +19,18 @@ let game = document.querySelector(".projects .container");
 
 let join = document.getElementById("join");
 
-let goToGame = document.querySelector(".btn");
+let goToGame = document.querySelector("#goToGame");
 
 goToGame.addEventListener("click", function () {
   window.scrollTo({
-    top: 400,
+    top: 900,
     behavior: "smooth",
   });
 });
 
 let count;
 
-let CountGame = document.getElementById("CountGame");
+let countGame = document.getElementById("CountGame");
 
 var hrefValues = [
   "game1.html",
@@ -40,7 +40,7 @@ var hrefValues = [
   "game5.html",
 ];
 
-for (count = 1; count <= 5; count++) {
+for (count = 1; count <= 10; count++) {
   game.innerHTML += `
             <div class="stars" date-game="${count}">
             <i class="fa-solid fa-star" id="star1-game${count}"></i>
@@ -90,17 +90,10 @@ function updateLinks() {
   links.forEach((link, index) => {
     const lessonNum = index + 1;
     const requiredStars = 3 + (lessonNum - 2) * 2;
-    console.log(requiredStars);
     const totalStars = getTotalStarsForLesson(lessonNum);
 
     link.addEventListener("click", (event) => {
-      const isLessonCompleted = localStorage.getItem(
-        `Completed-game${lessonNum}`
-      );
-      if (isLessonCompleted) {
-        event.preventDefault();
-        alert(`انت خلصت الدرس دة يجميل و حليتو كلو صح مينفعش تدخل تانى`);
-      } else if (lessonNum > 3 && totalStars < requiredStars) {
+      if (lessonNum > 3 && totalStars < requiredStars) {
         event.preventDefault();
         alert(
           `انت لسا محتاج ${requiredStars} نجوم من الدروس ال فاتت عشان توصل للدرس ${lessonNum}`

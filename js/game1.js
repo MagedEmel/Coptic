@@ -4,8 +4,6 @@ let answer1 = document.getElementById("answer1");
 let answer2 = document.getElementById("answer2");
 let answer3 = document.getElementById("answer3");
 let submitAnswer = document.getElementById("submitAnswer");
-const displaysAnswer = document.getElementById("displaysAnswer");
-displaysAnswer.style.display = "none";
 
 submitAnswer.onclick = function () {
   const answer1Value = answer1.value;
@@ -32,6 +30,7 @@ submitAnswer.onclick = function () {
 
   const qustAnswers = document.getElementById("qustAnswers");
   const countAnswer = document.getElementById("countAnswer");
+  const displaysAnswer = document.getElementById("displaysAnswer");
 
   let correctAnswers = 0;
   if (value1) correctAnswers++;
@@ -44,7 +43,4 @@ submitAnswer.onclick = function () {
     correctAnswers === 1 ? "سؤال واحد" : `${correctAnswers} اسئلة`
   } صح`;
   localStorage.setItem("NumOfStars-game1", correctAnswers);
-  if (correctAnswers === 3) {
-    localStorage.setItem("Completed-game1", "true");
-  }
 };
