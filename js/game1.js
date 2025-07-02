@@ -44,6 +44,3 @@ submitAnswer.onclick = function () {
   } صح`;
   localStorage.setItem("NumOfStars-game1", correctAnswers);
 };
-
-
-  console.log("xxx");
