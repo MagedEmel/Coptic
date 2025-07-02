@@ -38,9 +38,21 @@ var hrefValues = [
   "game3.html",
   "game4.html",
   "game5.html",
+  "game6.html",
+  "game7.html",
+  "game8.html",
+  "game9.html",
+  "game10.html",
+  "game11.html",
+  "game12.html",
+  "game13.html",
+  "game14.html",
+  "game15.html",
+  "game16.html",
+  "game17.html",
 ];
 
-for (count = 1; count <= 10; count++) {
+for (count = 1; count <= 1; count++) {
   game.innerHTML += `
             <div class="stars" date-game="${count}">
             <i class="fa-solid fa-star" id="star1-game${count}"></i>
