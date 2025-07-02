@@ -43,5 +43,7 @@ submitAnswer.onclick = function () {
     correctAnswers === 1 ? "سؤال واحد" : `${correctAnswers} اسئلة`
   } صح`;
   localStorage.setItem("NumOfStars-game1", correctAnswers);
-  console.log("xxx");
 };
+
+
+  console.log("xxx");
