@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="img/logo_icon.png" />
 
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <!--Link Css-->
     <link rel="stylesheet" href="css/style.css" />
 
@@ -66,18 +70,11 @@
       </div>
     </div>
 
-    <section class="projects">
-      <div class="container"></div>
-    </section>
-
-    <section class="join">
-      <div class="container" id="join">
-        <img src="img/Logo HQ.png" alt="" />
-        <h2><span id="CountGame"></span></h2>
-
-        <div class="btns"></div>
+      <section class="projects">
+        <div class="container">
+        <div id="lessonsContainer"></div>
       </div>
-    </section>
+      </section>
 
     <section class="contact" id="contact">
       <div class="top-section">
@@ -101,6 +98,7 @@
           </div>
           </div>
     </section>
+
     <script src="js/main.js"></script>
   </body>
 </html>

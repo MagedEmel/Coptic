@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="img/logo_icon.png" />
 
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <!--Link Css-->
     <link rel="stylesheet" href="css/style.css" />
 
@@ -56,37 +60,15 @@
         </div>
       </nav>
     </header>
-    <section>
+
       <section>
         <div class="container" id="qustAnswers">
-          <h1 class="title_qust">أذكر ما هى الارقام الاتية ؟</h1>
-          <div class="qust">
-            <div class="Qus1">
-              <h3>Ⲓ̀ⲁ</h3>
-              <input type="text" id="answer1" />
-            </div>
-            <div class="Qus2">
-              <h3>ⲖⲆ_</h3>
-              <input type="text" id="answer2" />
-            </div>
-            <div class="Qus3">
-              <h3>ⲘⲐ</h3>
-              <input type="text" id="answer3" />
-            </div>
-          </div>
+          <h1 class="title_qust" id="lessonTitle">أذكر ما هى الارقام الاتية ؟</h1>
+          <div class="qust" id="questionsWrapper"></div>
           <button id="submitAnswer" class="btn">ارسال الحل</button>
         </div>
       </section>
-      <div>
-        <div class="container">
-            <div class="displayAnswer" id="displaysAnswer">
-                <h3>❤️اشطر كتكوووت</h3>
-                <h4 id="countAnswer"></h4>
-                <a class="btn" href="game.html">يلا نكمل لعب سوا</a>
-            </div>
-        </div>
-      </div>
+
     <script src="js/main.js"></script>
-    <script src="js/game5.js"></script>
   </body>
 </html>

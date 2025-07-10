@@ -1,120 +1,307 @@
-"use strict";
-// add class active to header scroll
-
-let header = document.querySelector("header");
-
-window.onscroll = function () {
-  if (this.scrollY >= 50) {
-    header.classList.add("active");
-  } else {
-    header.classList.remove("active");
-  }
+const firebaseConfig = {
+  apiKey: "AIzaSyB_uwE-wY_ps0tpP3TWbThTQ097Qwif0fk",
+  authDomain: "coptic-ee8df.firebaseapp.com",
+  databaseURL: "https://coptic-ee8df-default-rtdb.firebaseio.com",
+  projectId: "coptic-ee8df",
+  storageBucket: "coptic-ee8df.appspot.com",
+  messagingSenderId: "444856301954",
+  appId: "1:444856301954:web:f712c7152c16887aabf79b",
 };
-let linkes = document.getElementById("links");
-function openCloseMenu() {
-  linkes.classList.toggle("active");
-}
 
-let game = document.querySelector(".projects .container");
+firebase.initializeApp(firebaseConfig);
 
-let join = document.getElementById("join");
-
-let goToGame = document.querySelector("#goToGame");
-
-goToGame.addEventListener("click", function () {
-  window.scrollTo({
-    top: 900,
-    behavior: "smooth",
-  });
-});
-
-let count;
-
-let countGame = document.getElementById("CountGame");
-
-var hrefValues = [
-  "game1.html",
-  "game2.html",
-  "game3.html",
-  "game4.html",
-  "game5.html",
-  "game6.html",
-  "game7.html",
-  "game8.html",
-  "game9.html",
-  "game10.html",
-  "game11.html",
-  "game12.html",
-  "game13.html",
-  "game14.html",
-  "game15.html",
-  "game16.html",
-  "game17.html",
-];
-
-for (count = 1; count <= 1; count++) {
-  game.innerHTML += `
-            <div class="stars" date-game="${count}">
-            <i class="fa-solid fa-star" id="star1-game${count}"></i>
-            <i class="fa-solid fa-star" id="star2-game${count}"></i>
-            <i class="fa-solid fa-star" id="star3-game${count}"></i>
-          </div>
-          <div class="game">
-            <a href="${
-              hrefValues[count - 1]
-            }" id="goGame${count}" class="game-link">
-              <h3 id="game" class="${count}" onclick="joinGame()">${count}</h3>
-            </a>
-          </div>`;
-}
-
-function updateStars() {
-  for (count = 1; count <= hrefValues.length; count++) {
-    let score = localStorage.getItem(`NumOfStars-game${count}`);
-    if (score) {
-      score = parseInt(score, 10);
-      if (score >= 1) {
-        document.getElementById(`star1-game${count}`).style.color = "yellow";
-      }
-      if (score >= 2) {
-        document.getElementById(`star2-game${count}`).style.color = "yellow";
-      }
-      if (score >= 3) {
-        document.getElementById(`star3-game${count}`).style.color = "yellow";
-      }
-    }
-  }
-}
-
-function getTotalStarsForLesson(lessonNumber) {
-  let totalStars = 0;
-  for (let i = 1; i < lessonNumber; i++) {
-    let key = `NumOfStars-game${i}`;
-    let score = localStorage.getItem(key);
-    if (score) {
-      totalStars += parseInt(score, 10);
-    }
-  }
-  return totalStars;
-}
-function updateLinks() {
-  const links = document.querySelectorAll(".game-link");
-  links.forEach((link, index) => {
-    const lessonNum = index + 1;
-    const requiredStars = 3 + (lessonNum - 2) * 2;
-    const totalStars = getTotalStarsForLesson(lessonNum);
-
-    link.addEventListener("click", (event) => {
-      if (lessonNum > 3 && totalStars < requiredStars) {
-        event.preventDefault();
-        alert(
-          `انت لسا محتاج ${requiredStars} نجوم من الدروس ال فاتت عشان توصل للدرس ${lessonNum}`
-        );
-      }
-    });
-  });
-}
 document.addEventListener("DOMContentLoaded", () => {
-  updateStars();
-  updateLinks();
+  // ------------------ signup ------------------
+  const form = document.querySelector(".signup");
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value;
+
+      if (name === "" || password === "") {
+        alert("من فضلك املأ كل البيانات");
+        return;
+      }
+
+      const fakeEmail = name + "@elzero.com";
+
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(fakeEmail, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+
+          // نحفظ الاسم الحقيقي في الـ Database
+          firebase
+            .database()
+            .ref("users/" + user.uid)
+            .set({
+              name: name,
+              password: password,
+              stars: 0,
+            });
+
+          alert("تم تسجيل الحساب باسم " + name);
+          localStorage.setItem("userId", user.uid);
+          localStorage.setItem("userName", name);
+          // window.location.href = "levels.html";
+        })
+        .catch((error) => {
+          if (error.code === "auth/email-already-in-use") {
+            alert("الاسم مستخدم قبل كده، جرّب تدخل من صفحة تسجيل الدخول");
+          } else {
+            alert("خطأ: " + error.message);
+          }
+        });
+    });
+  }
+
+  // ----------------- Login ----------------
+  const form1 = document.querySelector(".login");
+  if (form1) {
+    form1.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPass").value;
+
+      if (!name || !password) {
+        alert("اكتب الاسم والباسورد");
+        return;
+      }
+
+      // نقرأ كل المستخدمين
+      firebase
+        .database()
+        .ref("users")
+        .once("value")
+        .then((snapshot) => {
+          let found = false;
+
+          snapshot.forEach((childSnapshot) => {
+            const userData = childSnapshot.val();
+            if (userData.name === name && userData.password === password) {
+              found = true;
+
+              // خزّن بيانات الدخول
+              localStorage.setItem("userId", childSnapshot.key);
+              localStorage.setItem("userName", name);
+
+              // ودّيه على الصفحة الرئيسية
+              window.location.href = "index.html";
+            }
+          });
+
+          if (!found) {
+            alert("الاسم أو الباسورد غلط ❌");
+          }
+        });
+    });
+  }
+
+// ----------------- Game -----------------------
+const userId = localStorage.getItem("userId");
+const game = document.getElementById("lessonsContainer");
+
+if (game) {
+  firebase
+    .database()
+    .ref("lessons")
+    .once("value")
+    .then((snapshot) => {
+      const lessons = [];
+      snapshot.forEach((child) => {
+        lessons.push({ id: child.key, data: child.val() });
+      });
+
+      // نجيب التقدم والنجوم بتاع المستخدم
+      firebase
+        .database()
+        .ref(`users/${userId}/progress`)
+        .once("value")
+        .then((progressSnap) => {
+          const progress = progressSnap.val() || {};
+          const totalStars = Object.values(progress).reduce(
+            (acc, p) => acc + (p.stars || 0),
+            0
+          );
+          const completedLessons = Object.keys(progress).length;
+
+          let count = 1;
+          lessons.forEach((lessonObj, index) => {
+            const lessonId = lessonObj.id;
+            const href = `level.html?level=${lessonId}`;
+            const currentCount = count;
+
+            // حساب الشروط:
+            const requiredCompletedLessons = index;
+            const requiredStars = index >= 2 ? index - 1 : 0;
+
+            let isUnlocked = true;
+
+            if (completedLessons < requiredCompletedLessons) {
+              isUnlocked = false;
+            }
+
+            if (index >= 2 && totalStars < requiredStars) {
+              isUnlocked = false;
+            }
+
+            // رسم النجوم
+            const starsDiv = document.createElement("div");
+            starsDiv.className = "stars";
+            starsDiv.setAttribute("date-game", currentCount);
+
+            for (let i = 1; i <= 3; i++) {
+              const star = document.createElement("i");
+              star.className = "fa-solid fa-star";
+              star.id = `star${i}-game${currentCount}`;
+              starsDiv.appendChild(star);
+            }
+
+            // رسم الديف بتاع الدرس
+            const gameDiv = document.createElement("div");
+            gameDiv.className = "game";
+
+            if (isUnlocked) {
+              gameDiv.innerHTML = `
+                <a href="${href}" id="goGame${currentCount}" class="game-link">
+                  <h3 id="game" class="${currentCount}" onclick="joinGame()">${currentCount}</h3>
+                </a>
+              `;
+            } else {
+              gameDiv.innerHTML = `
+                <div class="locked">
+                  <h3 class="locked">${currentCount}</h3>
+                </div>
+              `;
+              gameDiv.style.opacity = "0.5";
+            }
+
+            game.appendChild(starsDiv);
+            game.appendChild(gameDiv);
+
+            // نلوّن النجوم حسب عدد النجوم المكتسبة
+            const starsData =
+              progress[lessonId]?.stars && Number(progress[lessonId].stars);
+
+            if (starsData) {
+              for (let s = 1; s <= starsData; s++) {
+                const starEl = document.getElementById(
+                  `star${s}-game${currentCount}`
+                );
+                if (starEl) {
+                  starEl.style.color = "yellow";
+                }
+              }
+            }
+
+            count++;
+          });
+        });
+    });
+}
+  
+
+  // ---------- Level -------------------
+  const levelId = new URLSearchParams(window.location.search).get("level");
+  const questionsWrapper = document.getElementById("questionsWrapper");
+  const title = document.getElementById("lessonTitle");
+
+  if (!levelId) {
+    title.textContent = "حدث خطأ: لا يوجد ليفل";
+    return;
+  }
+
+firebase
+  .database()
+  .ref("lessons/" + levelId)
+  .once("value")
+  .then((snapshot) => {
+    const data = snapshot.val();
+
+    if (!data) {
+      title.textContent = "الدرس غير موجود ❌";
+      return;
+    }
+
+    title.textContent = data.title || "الدرس";
+
+    const questions = data.questions;
+
+    if (!questions) {
+      title.textContent = "لا يوجد أسئلة في هذا الدرس 🚫";
+      return;
+    }
+
+    let index = 1;
+
+    for (let key in questions) {
+      const q = questions[key];
+
+      const qustBox = document.createElement("div");
+      qustBox.classList.add(`Qus${index}`);
+
+      let questionHTML = `<h3>${q.question}</h3>`;
+
+      // ✅ لو فيه اختيارات
+      if (q.type === "mcq" && Array.isArray(q.options)) {
+        questionHTML += `<p>الاختيارات: ${q.options.join(" - ")}</p>`;
+      }
+
+      questionHTML += `<input type="text" id="answer${index}" required/>`;
+
+      qustBox.innerHTML = questionHTML;
+
+      questionsWrapper.appendChild(qustBox);
+      index++;
+    }
+  })
+  .catch((error) => {
+    title.textContent = "حدث خطأ أثناء تحميل البيانات ❗";
+    console.error(error);
+  });
+
+
+  // ---------- Submit in Level -------------
+  const submitBtn = document.getElementById("submitAnswer");
+  const urlParams = new URLSearchParams(window.location.search);
+  const level = urlParams.get("level");
+
+  submitBtn.addEventListener("click", (e) => {
+    if (!level || !userId) return;
+
+    firebase
+      .database()
+      .ref(`lessons/${level}/questions`)
+      .once("value")
+      .then((snapshot) => {
+        let correctCount = 0;
+        let inputIndex = 1;
+
+        snapshot.forEach((childSnapshot) => {
+          const questionData = childSnapshot.val();
+          const input = document.getElementById(`answer${inputIndex}`);
+          inputIndex++;
+
+          if (!input) return;
+
+          const userAnswer = input.value.trim().toLowerCase();
+          const correctAnswer = String(questionData.answer).trim().toLowerCase();
+
+          if (userAnswer === correctAnswer) {
+            correctCount++;
+          }
+        });
+
+        firebase.database().ref(`users/${userId}/progress/${level}`).set({
+          stars: correctCount,
+        });
+
+        alert(`أحسنت! جبت ${correctCount} من 3 ✨`);
+        window.location.href = "game.html";
+      });
+  });
 });

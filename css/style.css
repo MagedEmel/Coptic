@@ -21,7 +21,7 @@ body {
 }
 .container {
   width: 85%;
-  margin: auto;
+  margin: 0 auto;
   max-width: 1500px;
 }
 
@@ -258,7 +258,7 @@ header nav .icons a:hover {
 /*End Hero */
 
 /* Start Projects */
-.projects .container {
+.projects .container #lessonsContainer{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -267,13 +267,13 @@ header nav .icons a:hover {
 .projects .container .stars {
   color: var(--white_color);
 }
-.projects .container .game {
+.projects .container #lessonsContainer .game {
   background: var(--main_color);
   border-radius: 50%;
   height: 70px;
   width: 70px;
 }
-.projects .container .game h3 {
+.projects .container #lessonsContainer .game h3 {
   line-height: 70px;
   text-align: center;
   color: black;
@@ -282,8 +282,8 @@ header nav .icons a:hover {
 .fa-star {
   font-size: 25px;
 }
-.projects .container.hidden {
-  display: none;
+.fa-star.yellow {
+  color: yellow;
 }
 /* End Projects */
 
@@ -489,19 +489,6 @@ header .linkes .logo,
     width: 47%;
     margin-bottom: 30px;
   }
-  .projects .project-box .text h3 a {
-    font-size: 25px;
-  }
-  .projects .project-box .text h4 {
-    font-size: 16px;
-  }
-  .projects .project-box .text p {
-    font-size: 14px;
-  }
-  .projects .project-box .text {
-    width: calc(50% - 50px);
-    margin-left: 50px;
-  }
   .contact .container {
     flex-direction: column;
   }
@@ -568,19 +555,6 @@ header .linkes .logo,
   }
   .contact .container .social-contact .links a {
     width: 70%;
-  }
-  .projects .project-box {
-    flex-direction: column;
-  }
-  .projects .project-box img {
-    width: 80%;
-    margin-bottom: 20px;
-  }
-  .projects .project-box .text {
-    width: 90%;
-  }
-  .projects .project-box.project-box-2 {
-    flex-direction: column;
   }
 }
 
