@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               // حساب الشروط:
               const requiredCompletedLessons = index;
-              const requiredStars = index >= 2 ? index - 1 : 0;
+              const requiredStars = index >= 2 ? index * 3 - 2 : 0;
 
               let isUnlocked = true;
 
@@ -321,6 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
 document.addEventListener("DOMContentLoaded", () => {
   if (
     window.location.href.split("/")[
@@ -339,27 +340,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const table = document.getElementById("tableDash");
 
   firebase
-    .database()
-    .ref("users")
-    .once("value")
-    .then((snapshot) => {
-      snapshot.forEach((userSnap) => {
-        const userData = userSnap.val();
-        const userName = userData.name || "بدون اسم";
+  .database()
+  .ref("users")
+  .once("value")
+  .then((snapshot) => {
+    snapshot.forEach((userSnap) => {
+      const userData = userSnap.val();
+      const userName = userData.name || "بدون اسم";
+      const progress = userData.progress || {};
+      let totalStars = 0;
+      let lessonsParticipated = 0;
+      let fullMarksLessons = 0;
 
-        let totalStars = 0;
+      const lessonPromises = [];
 
-        // لو فيه progress احسب عدد النجوم
-        if (userData.progress) {
-          for (let lessonId in userData.progress) {
-            const stars = userData.progress[lessonId].stars;
-            if (typeof stars === "number") {
-              totalStars += stars;
-            }
-          }
+      for (let lessonId in progress) {
+        const stars = progress[lessonId].stars;
+        if (typeof stars === "number") {
+          totalStars += stars;
         }
+        lessonsParticipated++;
 
-        // أنشئ صف جديد في الجدول
+        // نحضر عدد الأسئلة في كل درس ونقارنها بـ correctAnswers
+        const p = firebase
+          .database()
+          .ref(`lessons/${lessonId}/questions`)
+          .once("value")
+          .then((questionsSnap) => {
+            const totalQuestions = questionsSnap.numChildren();
+            const correct = progress[lessonId].correctAnswers || 0;
+
+            if (correct === totalQuestions && totalQuestions > 0) {
+              fullMarksLessons++;
+            }
+          });
+
+        lessonPromises.push(p);
+      }
+
+      Promise.all(lessonPromises).then(() => {
         const tr = document.createElement("tr");
 
         const nameTd = document.createElement("td");
@@ -368,12 +387,22 @@ document.addEventListener("DOMContentLoaded", () => {
         const starsTd = document.createElement("td");
         starsTd.textContent = totalStars;
 
+        const lessonsTd = document.createElement("td");
+        lessonsTd.textContent = lessonsParticipated;
+
+        const fullCorrectTd = document.createElement("td");
+        fullCorrectTd.textContent = fullMarksLessons;
+
         tr.appendChild(nameTd);
         tr.appendChild(starsTd);
+        tr.appendChild(lessonsTd);
+        tr.appendChild(fullCorrectTd);
+
         table.appendChild(tr);
       });
-    })
-    .catch((error) => {
-      console.error("فشل في تحميل البيانات:", error);
     });
+  })
+  .catch((error) => {
+    console.error("فشل في تحميل البيانات:", error);
+  });
 });
