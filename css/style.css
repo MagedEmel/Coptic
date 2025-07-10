@@ -708,7 +708,7 @@ header .linkes .logo,
 .lesson div {
   width: 80%;
   height: 100px;
-  background-color: var(--p_color);
+  background-color: #6d6d6d;
   margin: 30px auto;
   border-radius: 20px;
   display: flex;
@@ -717,7 +717,7 @@ header .linkes .logo,
 }
 .lesson h2 a {
   display: block;
-  color: #ccff00;
+  color: var(--p_color);
   text-align: center;
   padding: 10px;
   font-size: 40px;
