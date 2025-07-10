@@ -354,50 +354,60 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.getItem("userName");
   const table = document.getElementById("tableDash");
 
-  firebase
-    .database()
-    .ref("users")
-    .once("value")
-    .then((snapshot) => {
-      snapshot.forEach((userSnap) => {
-        const userData = userSnap.val();
-        const userName = userData.name || "بدون اسم";
-        const progress = userData.progress || {};
+firebase
+  .database()
+  .ref("users")
+  .once("value")
+  .then((snapshot) => {
+    snapshot.forEach((userSnap) => {
+      const userData = userSnap.val();
+      const userName = userData.name || "بدون اسم";
+      const progress = userData.progress || {};
 
-        let totalStars = 0;
-        let lessonsEntered = 0;
+      let totalStars = 0;
+      let lessonsEntered = 0;
+      let fullyCompletedLessons = 0; // ✅ عدد الدروس اللي جاب فيها 3 نجوم
 
-        // نحسب النجوم والدروس اللي المستخدم دخلها
-        for (let lessonId in progress) {
-          const stars = progress[lessonId].stars;
-          if (typeof stars === "number") {
-            totalStars += stars;
+      for (let lessonId in progress) {
+        const stars = progress[lessonId].stars;
+
+        if (typeof stars === "number") {
+          totalStars += stars;
+
+          // ✅ درس جاب فيه 3 نجوم بالظبط
+          if (stars === 3) {
+            fullyCompletedLessons++;
           }
-
-          // طالما فيه entry في progress يبقى المستخدم دخل الدرس
-          lessonsEntered++;
         }
 
-        // نضيف البيانات في الجدول
-        const tr = document.createElement("tr");
+        lessonsEntered++;
+      }
 
-        const nameTd = document.createElement("td");
-        nameTd.textContent = userName;
+      // إنشاء الصف
+      const tr = document.createElement("tr");
 
-        const starsTd = document.createElement("td");
-        starsTd.textContent = totalStars;
+      const nameTd = document.createElement("td");
+      nameTd.textContent = userName;
 
-        const lessonsTd = document.createElement("td");
-        lessonsTd.textContent = lessonsEntered;
+      const starsTd = document.createElement("td");
+      starsTd.textContent = totalStars;
 
-        tr.appendChild(nameTd);
-        tr.appendChild(starsTd);
-        tr.appendChild(lessonsTd);
+      const lessonsTd = document.createElement("td");
+      lessonsTd.textContent = lessonsEntered;
 
-        document.getElementById("tableDash").appendChild(tr);
-      });
-    })
-    .catch((error) => {
-      console.error("فشل في تحميل البيانات:", error);
+      const fullLessonsTd = document.createElement("td");
+      fullLessonsTd.textContent = fullyCompletedLessons;
+
+      tr.appendChild(nameTd);
+      tr.appendChild(starsTd);
+      tr.appendChild(lessonsTd);
+      tr.appendChild(fullLessonsTd);
+
+      document.getElementById("tableDash").appendChild(tr);
     });
+  })
+  .catch((error) => {
+    console.error("فشل في تحميل البيانات:", error);
+  });
+
 });

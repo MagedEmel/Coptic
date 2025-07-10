@@ -10,10 +10,10 @@
 }
 :root {
   --main_color: #ccff00;
-  --p_color: #025844;
+  --p_color: #a6ff00;
   --bg_color: #1f1f1f;
   --white_color: #fff;
-  --black_color: #00aff4;
+  --black_color: #121212;
   --border-color: rgba(13, 174, 210, 0.1);
 }
 body {
@@ -470,7 +470,7 @@ header .linkes .logo,
     font-size: 55px;
   }
   .hero .div-text p {
-    font-size: 16px;
+    font-size: 23px;
     margin: 30px auto;
   }
   .hero .btn {
@@ -576,9 +576,7 @@ header .linkes .logo,
 }
 
 /* start game page */
-body {
-  background-color: #16a4d9;
-}
+
 .qust {
   margin: 20px auto;
   text-align: center;
@@ -609,7 +607,7 @@ body {
 .Qus12 {
   width: 30%;
   height: 300px;
-  background-color: #5ed9d3;
+  background-color: #222;
   box-shadow: 5px 2px 5px #fff;
   display: flex;
   justify-content: center;
@@ -728,17 +726,18 @@ body {
 /*  Start DashBoard */
 
 .dashboard .container table {
-  border: 3px solid black;
+  border: 3px solid var(--main_color);
   border-collapse: collapse;
   width: 60%;
   margin: 30px auto;
-  font-size: 18px;
+  font-size: 30px;
   text-align: center;
+  color: var(--white_color);
 }
 .dashboard .container table tr {
-  border: 2px solid black;
+  border: 2px solid var(--main_color);
 }
 .dashboard .container table tr th,
 .dashboard .container table tr td {
-  border: 1px solid black;
+  border: 2px solid var(--main_color);
 }

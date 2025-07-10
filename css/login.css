@@ -10,14 +10,14 @@
 }
 :root {
   --main_color: #ccff00;
-  --p_color: #025844;
+  --p_color: #a6ff00;
   --bg_color: #1f1f1f;
   --white_color: #fff;
-  --black_color: #00aff4;
+  --black_color: #121212;
   --border-color: rgba(13, 174, 210, 0.1);
 }
 body {
-  background: #16a4d9;
+  background: #131313;
 }
 .container {
   width: 85%;
@@ -165,20 +165,32 @@ header nav .icons a {
 header nav .icons a:hover {
   scale: 1.4;
 }
+
 .container form.login input,
-.container form.signup input{
-    display: block;
-    margin: 10px auto;
-    outline: none;
-    border: none;
-    width: 70%;
-    height: 30px;
-    padding: 5px;
-    border-radius: 10px;
+.container form.signup input {
+  display: block;
+  margin: 20px auto;
+  outline: none;
+  border: none;
+  width: 70%;
+  height: 50px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 23px;
 }
 .container form.login .btn,
-.container form.signup .btn{
-    border: none;
-    display: block;
-    margin: 10px auto;
+.container form.signup .btn {
+  border: none;
+  display: block;
+  margin: 20px auto;
+  font-size: 23px;
+  font-weight: bold;
+}
+section.logiin .container h3,
+section.signuup .container h3 {
+  font-size: 25px;
+}
+section.logiin .container h4,
+section.signuup .container h4 {
+  font-size: 25px;
 }
