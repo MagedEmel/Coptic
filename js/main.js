@@ -1,3 +1,19 @@
+  // add class active to header scroll
+
+  let header = document.querySelector("header");
+
+  window.onscroll = function () {
+    if (this.scrollY >= 50) {
+      header.classList.add("active");
+    } else {
+      header.classList.remove("active");
+    }
+  };
+  let linkes = document.getElementById("links");
+  function openCloseMenu() {
+    linkes.classList.toggle("active");
+  }
+  
 const firebaseConfig = {
   apiKey: "AIzaSyB_uwE-wY_ps0tpP3TWbThTQ097Qwif0fk",
   authDomain: "coptic-ee8df.firebaseapp.com",
@@ -321,7 +337,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 document.addEventListener("DOMContentLoaded", () => {
   if (
     window.location.href.split("/")[
@@ -340,45 +355,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const table = document.getElementById("tableDash");
 
   firebase
-  .database()
-  .ref("users")
-  .once("value")
-  .then((snapshot) => {
-    snapshot.forEach((userSnap) => {
-      const userData = userSnap.val();
-      const userName = userData.name || "بدون اسم";
-      const progress = userData.progress || {};
-      let totalStars = 0;
-      let lessonsParticipated = 0;
-      let fullMarksLessons = 0;
+    .database()
+    .ref("users")
+    .once("value")
+    .then((snapshot) => {
+      snapshot.forEach((userSnap) => {
+        const userData = userSnap.val();
+        const userName = userData.name || "بدون اسم";
+        const progress = userData.progress || {};
 
-      const lessonPromises = [];
+        let totalStars = 0;
+        let lessonsEntered = 0;
 
-      for (let lessonId in progress) {
-        const stars = progress[lessonId].stars;
-        if (typeof stars === "number") {
-          totalStars += stars;
+        // نحسب النجوم والدروس اللي المستخدم دخلها
+        for (let lessonId in progress) {
+          const stars = progress[lessonId].stars;
+          if (typeof stars === "number") {
+            totalStars += stars;
+          }
+
+          // طالما فيه entry في progress يبقى المستخدم دخل الدرس
+          lessonsEntered++;
         }
-        lessonsParticipated++;
 
-        // نحضر عدد الأسئلة في كل درس ونقارنها بـ correctAnswers
-        const p = firebase
-          .database()
-          .ref(`lessons/${lessonId}/questions`)
-          .once("value")
-          .then((questionsSnap) => {
-            const totalQuestions = questionsSnap.numChildren();
-            const correct = progress[lessonId].correctAnswers || 0;
-
-            if (correct === totalQuestions && totalQuestions > 0) {
-              fullMarksLessons++;
-            }
-          });
-
-        lessonPromises.push(p);
-      }
-
-      Promise.all(lessonPromises).then(() => {
+        // نضيف البيانات في الجدول
         const tr = document.createElement("tr");
 
         const nameTd = document.createElement("td");
@@ -388,21 +388,16 @@ document.addEventListener("DOMContentLoaded", () => {
         starsTd.textContent = totalStars;
 
         const lessonsTd = document.createElement("td");
-        lessonsTd.textContent = lessonsParticipated;
-
-        const fullCorrectTd = document.createElement("td");
-        fullCorrectTd.textContent = fullMarksLessons;
+        lessonsTd.textContent = lessonsEntered;
 
         tr.appendChild(nameTd);
         tr.appendChild(starsTd);
         tr.appendChild(lessonsTd);
-        tr.appendChild(fullCorrectTd);
 
-        table.appendChild(tr);
+        document.getElementById("tableDash").appendChild(tr);
       });
+    })
+    .catch((error) => {
+      console.error("فشل في تحميل البيانات:", error);
     });
-  })
-  .catch((error) => {
-    console.error("فشل في تحميل البيانات:", error);
-  });
 });

@@ -165,12 +165,12 @@ header nav .logo img {
 }
 header nav .linkes {
   display: flex;
-  gap: 20px;
+  gap: 30px;
 }
 header nav .linkes a {
   color: var(--white_color);
   text-transform: capitalize;
-  font-size: 20px;
+  font-size: 25px;
   transition: 0.3s;
   font-weight: bold;
 }
@@ -427,6 +427,22 @@ header .linkes .logo,
     right: 30px;
   }
 
+    header nav .linkes {
+    position: fixed;
+    top: 0;
+    flex-direction: column;
+    width: 400px;
+    background: var(--black_color);
+    left: -400px;
+    padding: 50px 0;
+    height: 100%;
+    border-right: 1px solid var(--border-color);
+    text-align: center;
+    transition: 0.5s ease-in-out;
+  }
+  header nav .linkes.active {
+    left: 0;
+  }
   header .linkes .logo {
     display: block;
   }
@@ -684,17 +700,20 @@ body {
 
 .lesson div {
   width: 80%;
-  height: 50px;
-  background-color: var(--p_color);
-  margin: 30px auto;
-  border-radius: 20px;
+    height: 100px;
+    background-color: var(--p_color);
+    margin: 30px auto;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .lesson h2 a {
   display: block;
   color: #ccff00;
   text-align: center;
   padding: 10px;
-  font-size: 30px;
+  font-size: 40px;
 }
 
 /*  Start DashBoard */
