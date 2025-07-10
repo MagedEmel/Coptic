@@ -142,6 +142,7 @@ p {
 /* End BackGround*/
 
 header {
+  padding: 30px;
   position: fixed;
   top: 0;
   right: 0;
@@ -154,6 +155,9 @@ header.active {
   background-color: var(--black_color);
   border-bottom: 1px solid #56565697;
 }
+header h1{
+  font-size: 35px;
+}
 header nav {
   display: flex;
   justify-content: space-between;
@@ -165,19 +169,21 @@ header nav .logo img {
 }
 header nav .linkes {
   display: flex;
-  gap: 30px;
+  gap: 40px;
 }
 header nav .linkes a {
   color: var(--white_color);
   text-transform: capitalize;
-  font-size: 25px;
+  font-size: 30px;
   transition: 0.3s;
   font-weight: bold;
 }
 @media (max-width: 450px) {
   header nav .linkes a {
-    font-size: 15px;
-    width: 30%;
+    font-size: 30px;
+    width: 100%;
+    border-bottom: 1px solid black;
+    padding-bottom: 50px;
   }
 }
 header nav .linkes a:hover {
@@ -426,8 +432,7 @@ header .linkes .logo,
     top: 30px;
     right: 30px;
   }
-
-    header nav .linkes {
+  header nav .linkes {
     position: fixed;
     top: 0;
     flex-direction: column;
@@ -442,6 +447,10 @@ header .linkes .logo,
   }
   header nav .linkes.active {
     left: 0;
+  }
+  header nav .linkes a {
+    border-bottom: 1px solid black;
+    padding-bottom: 50px;
   }
   header .linkes .logo {
     display: block;
@@ -620,7 +629,7 @@ body {
 .Qus9 h3,
 .Qus10 h3,
 .Qus11 h3,
-.Qus12 h3{
+.Qus12 h3 {
   font-size: 60px;
 }
 .qust input {
@@ -700,13 +709,13 @@ body {
 
 .lesson div {
   width: 80%;
-    height: 100px;
-    background-color: var(--p_color);
-    margin: 30px auto;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 100px;
+  background-color: var(--p_color);
+  margin: 30px auto;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .lesson h2 a {
   display: block;

@@ -13,7 +13,7 @@
   function openCloseMenu() {
     linkes.classList.toggle("active");
   }
-  
+
 const firebaseConfig = {
   apiKey: "AIzaSyB_uwE-wY_ps0tpP3TWbThTQ097Qwif0fk",
   authDomain: "coptic-ee8df.firebaseapp.com",
@@ -341,14 +341,14 @@ document.addEventListener("DOMContentLoaded", () => {
   if (
     window.location.href.split("/")[
       window.location.href.split("/").length - 1
-    ] == "index.html"
+    ] == "index.html" && localStorage.getItem("userId")
   )
     document.getElementById("namee").innerHTML =
       localStorage.getItem("userName");
   if (
     window.location.href.split("/")[
       window.location.href.split("/").length - 1
-    ] == "game.html"
+    ] == "game.html" && localStorage.getItem("userId")
   )
     document.getElementById("nameee").innerHTML =
       localStorage.getItem("userName");
