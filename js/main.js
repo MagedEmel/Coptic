@@ -1,18 +1,18 @@
-  // add class active to header scroll
+// add class active to header scroll
 
-  let header = document.querySelector("header");
+let header = document.querySelector("header");
 
-  window.onscroll = function () {
-    if (this.scrollY >= 50) {
-      header.classList.add("active");
-    } else {
-      header.classList.remove("active");
-    }
-  };
-  let linkes = document.getElementById("links");
-  function openCloseMenu() {
-    linkes.classList.toggle("active");
+window.onscroll = function () {
+  if (this.scrollY >= 50) {
+    header.classList.add("active");
+  } else {
+    header.classList.remove("active");
   }
+};
+let linkes = document.getElementById("links");
+function openCloseMenu() {
+  linkes.classList.toggle("active");
+}
 
 const firebaseConfig = {
   apiKey: "AIzaSyB_uwE-wY_ps0tpP3TWbThTQ097Qwif0fk",
@@ -105,8 +105,11 @@ document.addEventListener("DOMContentLoaded", () => {
               localStorage.setItem("userName", name);
 
               // ودّيه على الصفحة الرئيسية
-              window.location.href = "index.html";
-              if (name == "john") window.location.href = "dashborad.html";
+              if (name === "john") {
+                window.location.href = "dashborad.html";
+              } else {
+                window.location.href = "index.html";
+              }
             }
           });
 
@@ -341,73 +344,74 @@ document.addEventListener("DOMContentLoaded", () => {
   if (
     window.location.href.split("/")[
       window.location.href.split("/").length - 1
-    ] == "index.html" && localStorage.getItem("userId")
+    ] == "index.html" &&
+    localStorage.getItem("userId")
   )
     document.getElementById("namee").innerHTML =
       localStorage.getItem("userName");
   if (
     window.location.href.split("/")[
       window.location.href.split("/").length - 1
-    ] == "game.html" && localStorage.getItem("userId")
+    ] == "game.html" &&
+    localStorage.getItem("userId")
   )
     document.getElementById("nameee").innerHTML =
       localStorage.getItem("userName");
   const table = document.getElementById("tableDash");
 
-firebase
-  .database()
-  .ref("users")
-  .once("value")
-  .then((snapshot) => {
-    snapshot.forEach((userSnap) => {
-      const userData = userSnap.val();
-      const userName = userData.name || "بدون اسم";
-      const progress = userData.progress || {};
+  firebase
+    .database()
+    .ref("users")
+    .once("value")
+    .then((snapshot) => {
+      snapshot.forEach((userSnap) => {
+        const userData = userSnap.val();
+        const userName = userData.name || "بدون اسم";
+        const progress = userData.progress || {};
 
-      let totalStars = 0;
-      let lessonsEntered = 0;
-      let fullyCompletedLessons = 0; // ✅ عدد الدروس اللي جاب فيها 3 نجوم
+        let totalStars = 0;
+        let lessonsEntered = 0;
+        let fullyCompletedLessons = 0; // ✅ عدد الدروس اللي جاب فيها 3 نجوم
 
-      for (let lessonId in progress) {
-        const stars = progress[lessonId].stars;
+        for (let lessonId in progress) {
+          const stars = progress[lessonId].stars;
 
-        if (typeof stars === "number") {
-          totalStars += stars;
+          if (typeof stars === "number") {
+            totalStars += stars;
 
-          // ✅ درس جاب فيه 3 نجوم بالظبط
-          if (stars === 3) {
-            fullyCompletedLessons++;
+            // ✅ درس جاب فيه 3 نجوم بالظبط
+            if (stars === 3) {
+              fullyCompletedLessons++;
+            }
           }
+
+          lessonsEntered++;
         }
 
-        lessonsEntered++;
-      }
+        // إنشاء الصف
+        const tr = document.createElement("tr");
 
-      // إنشاء الصف
-      const tr = document.createElement("tr");
+        const nameTd = document.createElement("td");
+        nameTd.textContent = userName;
 
-      const nameTd = document.createElement("td");
-      nameTd.textContent = userName;
+        const starsTd = document.createElement("td");
+        starsTd.textContent = totalStars;
 
-      const starsTd = document.createElement("td");
-      starsTd.textContent = totalStars;
+        const lessonsTd = document.createElement("td");
+        lessonsTd.textContent = lessonsEntered;
 
-      const lessonsTd = document.createElement("td");
-      lessonsTd.textContent = lessonsEntered;
+        const fullLessonsTd = document.createElement("td");
+        fullLessonsTd.textContent = fullyCompletedLessons;
 
-      const fullLessonsTd = document.createElement("td");
-      fullLessonsTd.textContent = fullyCompletedLessons;
+        tr.appendChild(nameTd);
+        tr.appendChild(starsTd);
+        tr.appendChild(lessonsTd);
+        tr.appendChild(fullLessonsTd);
 
-      tr.appendChild(nameTd);
-      tr.appendChild(starsTd);
-      tr.appendChild(lessonsTd);
-      tr.appendChild(fullLessonsTd);
-
-      document.getElementById("tableDash").appendChild(tr);
+        document.getElementById("tableDash").appendChild(tr);
+      });
+    })
+    .catch((error) => {
+      console.error("فشل في تحميل البيانات:", error);
     });
-  })
-  .catch((error) => {
-    console.error("فشل في تحميل البيانات:", error);
-  });
-
 });
