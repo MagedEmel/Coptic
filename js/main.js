@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
               // ودّيه على الصفحة الرئيسية
               window.location.href = "index.html";
-              if(name == "john") window.location.href = "dashborad.html"
+              if (name == "john") window.location.href = "dashborad.html";
             }
           });
 
@@ -105,14 +105,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let Log = document.getElementById("Log");
   let Sign = document.getElementById("Sign");
   logout.onclick = () => {
-    if(localStorage.getItem("userId")){
+    if (localStorage.getItem("userId")) {
       localStorage.removeItem("userId");
-      window.location.href = "login.html"
+      window.location.href = "login.html";
     }
-  }
-  if(!localStorage.getItem("userId")){
+  };
+  if (!localStorage.getItem("userId")) {
     logout.style.display = "none";
-  } else{
+  } else {
     Log.style.display = "none";
     Sign.style.display = "none";
   }
@@ -321,45 +321,59 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 document.addEventListener("DOMContentLoaded", () => {
-  if(window.location.href.split("/")[window.location.href.split("/").length - 1] == "index.html") 
-    document.getElementById("namee").innerHTML = localStorage.getItem("userName");
-  if(window.location.href.split("/")[window.location.href.split("/").length - 1] == "game.html")
-    document.getElementById("nameee").innerHTML = localStorage.getItem("userName");
+  if (
+    window.location.href.split("/")[
+      window.location.href.split("/").length - 1
+    ] == "index.html"
+  )
+    document.getElementById("namee").innerHTML =
+      localStorage.getItem("userName");
+  if (
+    window.location.href.split("/")[
+      window.location.href.split("/").length - 1
+    ] == "game.html"
+  )
+    document.getElementById("nameee").innerHTML =
+      localStorage.getItem("userName");
   const table = document.getElementById("tableDash");
 
-  firebase.database().ref("users").once("value").then((snapshot) => {
-    snapshot.forEach((userSnap) => {
-      const userData = userSnap.val();
-      const userName = userData.name || "بدون اسم";
+  firebase
+    .database()
+    .ref("users")
+    .once("value")
+    .then((snapshot) => {
+      snapshot.forEach((userSnap) => {
+        const userData = userSnap.val();
+        const userName = userData.name || "بدون اسم";
 
-      let totalStars = 0;
+        let totalStars = 0;
 
-      // لو فيه progress احسب عدد النجوم
-      if (userData.progress) {
-        for (let lessonId in userData.progress) {
-          const stars = userData.progress[lessonId].stars;
-          if (typeof stars === "number") {
-            totalStars += stars;
+        // لو فيه progress احسب عدد النجوم
+        if (userData.progress) {
+          for (let lessonId in userData.progress) {
+            const stars = userData.progress[lessonId].stars;
+            if (typeof stars === "number") {
+              totalStars += stars;
+            }
           }
         }
-      }
 
-      // أنشئ صف جديد في الجدول
-      const tr = document.createElement("tr");
+        // أنشئ صف جديد في الجدول
+        const tr = document.createElement("tr");
 
-      const nameTd = document.createElement("td");
-      nameTd.textContent = userName;
+        const nameTd = document.createElement("td");
+        nameTd.textContent = userName;
 
-      const starsTd = document.createElement("td");
-      starsTd.textContent = totalStars;
+        const starsTd = document.createElement("td");
+        starsTd.textContent = totalStars;
 
-      tr.appendChild(nameTd);
-      tr.appendChild(starsTd);
-      table.appendChild(tr);
+        tr.appendChild(nameTd);
+        tr.appendChild(starsTd);
+        table.appendChild(tr);
+      });
+    })
+    .catch((error) => {
+      console.error("فشل في تحميل البيانات:", error);
     });
-  }).catch((error) => {
-    console.error("فشل في تحميل البيانات:", error);
-  });
 });

@@ -20,7 +20,7 @@ body {
   background: #131313;
 }
 .container {
-  width: 85%;
+  width: 90%;
   margin: 0 auto;
   max-width: 1500px;
 }
@@ -165,13 +165,20 @@ header nav .logo img {
 }
 header nav .linkes {
   display: flex;
-  gap: 40px;
+  gap: 20px;
 }
 header nav .linkes a {
   color: var(--white_color);
   text-transform: capitalize;
-  font-size: 25px;
+  font-size: 20px;
   transition: 0.3s;
+  font-weight: bold;
+}
+@media (max-width: 450px) {
+  header nav .linkes a {
+    font-size: 15px;
+    width: 30%;
+  }
 }
 header nav .linkes a:hover {
   color: var(--main_color);
@@ -258,7 +265,7 @@ header nav .icons a:hover {
 /*End Hero */
 
 /* Start Projects */
-.projects .container #lessonsContainer{
+.projects .container #lessonsContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -655,7 +662,7 @@ body {
 
 /* LESSON PAGE */
 
-.lesson div{
+.lesson div {
   width: 80%;
   height: 50px;
   background-color: var(--p_color);
@@ -670,10 +677,9 @@ body {
   font-size: 30px;
 }
 
-
 /*  Start DashBoard */
 
-.dashboard .container table{
+.dashboard .container table {
   border: 3px solid black;
   border-collapse: collapse;
   width: 60%;
@@ -681,10 +687,10 @@ body {
   font-size: 18px;
   text-align: center;
 }
-.dashboard .container table tr{
+.dashboard .container table tr {
   border: 2px solid black;
 }
 .dashboard .container table tr th,
-.dashboard .container table tr td{
+.dashboard .container table tr td {
   border: 1px solid black;
 }
