@@ -419,22 +419,7 @@ header .linkes .logo,
     top: 30px;
     right: 30px;
   }
-  header nav .linkes {
-    position: fixed;
-    top: 0;
-    flex-direction: column;
-    width: 400px;
-    background: var(--black_color);
-    left: -400px;
-    padding: 50px 0;
-    height: 100%;
-    border-right: 1px solid var(--border-color);
-    text-align: center;
-    transition: 0.5s ease-in-out;
-  }
-  header nav .linkes.active {
-    left: 0;
-  }
+
   header .linkes .logo {
     display: block;
   }
@@ -683,4 +668,23 @@ body {
   text-align: center;
   padding: 10px;
   font-size: 30px;
+}
+
+
+/*  Start DashBoard */
+
+.dashboard .container table{
+  border: 3px solid black;
+  border-collapse: collapse;
+  width: 60%;
+  margin: 30px auto;
+  font-size: 18px;
+  text-align: center;
+}
+.dashboard .container table tr{
+  border: 2px solid black;
+}
+.dashboard .container table tr th,
+.dashboard .container table tr td{
+  border: 1px solid black;
 }
