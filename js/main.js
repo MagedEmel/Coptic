@@ -62,7 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("تم تسجيل الحساب باسم " + name);
           localStorage.setItem("userId", user.uid);
           localStorage.setItem("userName", name);
-          // window.location.href = "levels.html";
         })
         .catch((error) => {
           if (error.code === "auth/email-already-in-use") {
@@ -148,6 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
         snapshot.forEach((child) => {
           lessons.push({ id: child.key, data: child.val() });
         });
+        if (!userId) {
+          game.innerHTML = `<h3 style='font-size: 30px; margin-bottom: 20px'>
+      اعمل تسجيل دخول 
+      <span><a href="login.html">من هنا</a></span> 
+      عشان تقدر تلعب معانا
+    </h3>`;
+        }
 
         // نجيب التقدم والنجوم بتاع المستخدم
         firebase
@@ -178,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 isUnlocked = false;
               }
 
-              if (index >= 2 && totalStars < requiredStars) {
+              if ((index >= 2 && totalStars < requiredStars) || !userId) {
                 isUnlocked = false;
               }
 
@@ -212,7 +218,6 @@ document.addEventListener("DOMContentLoaded", () => {
               `;
                 gameDiv.style.opacity = "0.5";
               }
-
               game.appendChild(starsDiv);
               game.appendChild(gameDiv);
 
@@ -230,7 +235,6 @@ document.addEventListener("DOMContentLoaded", () => {
                   }
                 }
               }
-
               count++;
             });
           });
@@ -414,3 +418,16 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("فشل في تحميل البيانات:", error);
     });
 });
+// document.addEventListener("keydown", function (e) {
+//   if (
+//     e.ctrlKey && (e.key === "u" || e.key === "U" || e.key == "ع") ||
+//     e.key === "F12"
+//   ) {
+//     e.preventDefault();
+//     alert("ممنوع 👀");
+//   }
+// });
+
+// document.addEventListener("contextmenu", function (e) {
+//   e.preventDefault();
+// });
