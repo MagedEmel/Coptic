@@ -112,7 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             }
           });
-
           if (!found) {
             alert("الاسم أو الباسورد غلط ❌");
           }
