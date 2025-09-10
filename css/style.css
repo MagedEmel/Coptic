@@ -155,7 +155,7 @@ header.active {
   background-color: var(--black_color);
   border-bottom: 1px solid #56565697;
 }
-header h1{
+header h1 {
   font-size: 35px;
 }
 header nav {
@@ -629,6 +629,7 @@ header .linkes .logo,
 .Qus11 h3,
 .Qus12 h3 {
   font-size: 60px;
+  direction: rtl;
 }
 .qust input {
   width: 80%;

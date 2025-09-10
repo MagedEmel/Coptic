@@ -253,17 +253,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   firebase
     .database()
-    .ref("lessons/" + levelId)
+    .ref("lessons")
     .once("value")
     .then((snapshot) => {
-      const data = snapshot.val();
+      const lessons = [];
+      snapshot.forEach((child) => {
+        lessons.push({ id: child.key, data: child.val() });
+      });
+
+      // نحدد ترتيب الدرس الحالي
+      const lessonIndex = lessons.findIndex((l) => l.id === levelId) + 1;
+      const data = lessons[lessonIndex - 1]?.data;
 
       if (!data) {
         title.textContent = "الدرس غير موجود ❌";
         return;
       }
 
-      title.textContent = data.title || "الدرس";
+      // 👇 هنا التعديل: العنوان بقى ديناميك
+      title.textContent = `درس ${lessonIndex}`;
 
       const questions = data.questions;
 
@@ -282,7 +290,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let questionHTML = `<h3>${q.question}</h3>`;
 
-        // ✅ لو فيه اختيارات
         if (q.type === "mcq" && Array.isArray(q.options)) {
           questionHTML += `<p>الاختيارات: ${q.options.join(" - ")}</p>`;
         }
