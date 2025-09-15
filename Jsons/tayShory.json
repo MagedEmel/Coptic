@@ -1,0 +1,66 @@
+{
+  "lessons": [
+    null,
+    {
+      "questions": [
+        {
+          "question": "معني كلمه ⲧⲁⲓ",
+          "answer": "هذه",
+          "type": "text"
+        },
+        {
+          "question": "معني كلمه ϣⲟⲩⲣⲏ",
+          "answer": "مجمرة",
+          "type": "text"
+        },
+        {
+          "question": "معني كلمه ⲛⲟⲩⲃ ",
+          "answer": "ذهب",
+          "type": "text"
+        }
+      ]
+    },
+
+    {
+      "questions": [
+        {
+          "question": "استخدام ⲛ̀ الربط بين:",
+          "answer": "صفة وموصوف",
+          "options": ["صفة وموصوف", "مضاف ومضاف اليه", "فعل ومفعول"],
+          "type": "mcq"
+        },
+        {
+          "question": "نطق هذه الكلمه هو ⲕⲁⲑⲁⲣⲟⲥ",
+          "answer": "كاثاروس ",
+          "type": "text"
+        },
+        {
+          "question": "نطق هذه الكلمه هو ⲧⲁⲓ ",
+          "options": ["ناي", "ثاي", "طاي"],
+          "answer": "طاي",
+          "type": "mcq"
+        }
+      ]
+    },
+
+    {
+      "questions": [
+        {
+          "question": "معني كلمه ⲉⲧ",
+          "answer": "التي",
+          "type": "text"
+        },
+        {
+          "question": " نطق كلمة ϥⲁⲓ",
+          "answer": "فاي",
+          "type": "text"
+        },
+        {
+          "question": "معني كلمه ϥⲁⲓ ",
+          "answer": "تحمل",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
