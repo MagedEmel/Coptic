@@ -708,20 +708,20 @@ header .linkes .logo,
 
 .lesson div {
   width: 80%;
-  height: 100px;
-  background-color: #6d6d6d;
+  height: 150px;
   margin: 30px auto;
   border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 3px solid #fff;
 }
 .lesson h2 a {
   display: block;
   color: var(--p_color);
   text-align: center;
   padding: 10px;
-  font-size: 40px;
+  font-size: 35px;
 }
 
 /*  Start DashBoard */
