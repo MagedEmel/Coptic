@@ -322,13 +322,31 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((snapshot) => {
         let correctCount = 0;
         let inputIndex = 1;
+        let totalQuestions = 0;
+        let allAnswered = true;
 
         snapshot.forEach((childSnapshot) => {
+          totalQuestions++;
           const questionData = childSnapshot.val();
           const input = document.getElementById(`answer${inputIndex}`);
           inputIndex++;
 
-          if (!input) return;
+          if (!input || input.value.trim() === "") {
+            allAnswered = false;
+          }
+        });
+
+        if (!allAnswered) {
+          alert("جاوب على كل الأسئلة قبل ما تضغط إرسال 🙏");
+          return;
+        }
+
+        // ✅ نحسب الإجابات الصح
+        inputIndex = 1;
+        snapshot.forEach((childSnapshot) => {
+          const questionData = childSnapshot.val();
+          const input = document.getElementById(`answer${inputIndex}`);
+          inputIndex++;
 
           const userAnswer = input.value.trim().toLowerCase();
           const correctAnswer = String(questionData.answer)
@@ -340,12 +358,27 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
 
-        firebase.database().ref(`users/${userId}/progress/${level}`).set({
-          stars: correctCount,
-        });
+        // 📊 نجيب النجوم القديمة ونختار الأكبر
+        firebase
+          .database()
+          .ref(`users/${userId}/progress/${level}`)
+          .once("value")
+          .then((oldSnap) => {
+            const oldData = oldSnap.val();
+            const oldStars = oldData?.stars || 0;
+            const newStars = Math.max(oldStars, correctCount);
 
-        alert(`أحسنت! جبت ${correctCount} من 3 ✨`);
-        window.location.href = "game.html";
+            firebase.database().ref(`users/${userId}/progress/${level}`).set({
+              stars: newStars,
+            });
+            if (oldStars > correctCount) {
+              alert(
+                "أنت المرة الي فاتت حليت احلي من كدا فا هنحسب ليك نجوم المرة الي فاتت😍"
+              );
+            }
+            else alert(`تم التقييم ✅ عدد النجوم: ${newStars} من 3`);
+            window.location.href = "game.html";
+          });
       });
   });
 });
